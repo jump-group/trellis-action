@@ -60,7 +60,6 @@ try {
     let site_name = core.getInput('site_name');
     const group_vars = `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
 
-    console.log(`Deploying ${site_name} to ${site_env}`);
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
 
     if(wordpress_sites != null) {
