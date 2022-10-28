@@ -60,25 +60,25 @@ try {
     let site_name = core.getInput('site_name');
     const group_vars = `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
 
+    console.log(`Deploying ${site_name} to ${site_env}`);
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
 
     if(wordpress_sites != null) {
-        // if(site_name) {
-        //     let site = wordpress_sites.wordpress_sites[site_name];
-        //     console.info(site);
-        //     deploy_site(site_name, site, site_env)
-        // } else { 
-        //     const site_key = core.getInput('site_key', {required: true});
-        //     const site_value = core.getInput('site_value', {required: true});
+        if(site_name) {
+            let site = wordpress_sites.wordpress_sites[site_name];
+            console.info(site);
+            deploy_site(site_name, site, site_env)
+        } else { 
+            const site_key = core.getInput('site_key', {required: true});
+            const site_value = core.getInput('site_value', {required: true});
 
-        //     Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
-        //         let site = wordpress_sites.wordpress_sites[site_name];
-        //         if(site[site_key] == site_value) {
-        //             deploy_site(site_name, site, site_env);
-        //         }
-        //     });
-        // }
-        console.log("Found in "+group_vars);
+            Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
+                let site = wordpress_sites.wordpress_sites[site_name];
+                if(site[site_key] == site_value) {
+                    deploy_site(site_name, site, site_env);
+                }
+            });
+        }
     }else{
         console.log("No sites found in "+group_vars);
     }
