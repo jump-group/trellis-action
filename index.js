@@ -58,25 +58,29 @@ core.endGroup();
 try {
     const site_env = core.getInput('site_env', {required: true});
     let site_name = core.getInput('site_name');
-    const group_vars = `trellis/host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
+    const group_vars = `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
 
     console.log(`Deploying ${site_name} to ${site_env}`);
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
 
-    if(site_name) {
-        let site = wordpress_sites.wordpress_sites[site_name];
-        console.info(site);
-        deploy_site(site_name, site, site_env)
-    } else { 
-        const site_key = core.getInput('site_key', {required: true});
-        const site_value = core.getInput('site_value', {required: true});
-
-        Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
+    if(wordpress_sites != null) {
+        if(site_name) {
             let site = wordpress_sites.wordpress_sites[site_name];
-            if(site[site_key] == site_value) {
-                deploy_site(site_name, site, site_env);
-            }
-        });
+            console.info(site);
+            deploy_site(site_name, site, site_env)
+        } else { 
+            const site_key = core.getInput('site_key', {required: true});
+            const site_value = core.getInput('site_value', {required: true});
+
+            Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
+                let site = wordpress_sites.wordpress_sites[site_name];
+                if(site[site_key] == site_value) {
+                    deploy_site(site_name, site, site_env);
+                }
+            });
+        }
+    }else{
+        console.log("No sites found in "+group_vars);
     }
 } catch (error) {
     core.setFailed('Deploy site(s) failed: ' + error.message);
