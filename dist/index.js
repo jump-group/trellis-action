@@ -770,6 +770,7 @@ function deploy_site(site_name, site, site_env){
 
 function run_playbook(site_name, site_env, sha) {
     try {
+        console.log('ansible-playbook', ['deploy.yml',`-e site=${site_name}`, `-e env=${site_env}`, `-e site_version=${sha} ${verbose}`]);
         const child = child_process.execSync('ansible-playbook', ['deploy.yml',`-e site=${site_name}`, `-e env=${site_env}`, `-e site_version=${sha} ${verbose}`]);
 
         if( child.stdout ) 
