@@ -58,8 +58,9 @@ core.endGroup();
 try {
     const site_env = core.getInput('site_env', {required: true});
     let site_name = core.getInput('site_name');
-    const group_vars = core.getInput('group_vars') && `group_vars/${site_env}/wordpress_sites.yml`;
+    const group_vars = core.getInput('group_vars') && `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
 
+    console.log(`Deploying ${site_name} to ${site_env}`);
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
 
     if(site_name) {
