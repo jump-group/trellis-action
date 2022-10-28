@@ -696,7 +696,7 @@ core.startGroup('Install Galaxy Roles')
 try {
     const role_file = core.getInput('role_file');
     console.log("Installing Galaxy Roles using "+role_file);
-    child_process.spawnSync(`ansible-galaxy install -r ${role_file} ${verbose}`);
+    child_process.execSync(`ansible-galaxy install -r ${role_file} ${verbose}`);
 } catch (error) {
     core.setFailed('Installing galaxy role failed: '+error.message);
 }
@@ -707,23 +707,29 @@ core.endGroup();
 try {
     const site_env = core.getInput('site_env', {required: true});
     let site_name = core.getInput('site_name');
-    const group_vars = core.getInput('group_vars') && `group_vars/${site_env}/wordpress_sites.yml`;
+    const group_vars = `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
 
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
 
-    if(site_name) {
-        let site = wordpress_sites.wordpress_sites[site_name];
-        deploy_site(site_name, site, site_env)
-    } else { 
-        const site_key = core.getInput('site_key', {required: true});
-        const site_value = core.getInput('site_value', {required: true});
+    if(wordpress_sites != null) {
+        // if(site_name) {
+        //     let site = wordpress_sites.wordpress_sites[site_name];
+        //     console.info(site);
+        //     deploy_site(site_name, site, site_env)
+        // } else { 
+        //     const site_key = core.getInput('site_key', {required: true});
+        //     const site_value = core.getInput('site_value', {required: true});
 
-        Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
-            let site = wordpress_sites.wordpress_sites[site_name];
-            if(site[site_key] == site_value) {
-                deploy_site(site_name, site, site_env);
-            }
-        });
+        //     Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
+        //         let site = wordpress_sites.wordpress_sites[site_name];
+        //         if(site[site_key] == site_value) {
+        //             deploy_site(site_name, site, site_env);
+        //         }
+        //     });
+        // }
+        console.log("Found in "+group_vars);
+    }else{
+        console.log("No sites found in "+group_vars);
     }
 } catch (error) {
     core.setFailed('Deploy site(s) failed: ' + error.message);
@@ -764,7 +770,7 @@ function deploy_site(site_name, site, site_env){
 
 function run_playbook(site_name, site_env, sha) {
     try {
-        const child = child_process.spawnSync('ansible-playbook', ['deploy.yml',`-e site=${site_name}`, `-e env=${site_env}`, `-e site_version=${sha} ${verbose}`]);
+        const child = child_process.execSync('ansible-playbook', ['deploy.yml',`-e site=${site_name}`, `-e env=${site_env}`, `-e site_version=${sha} ${verbose}`]);
 
         if( child.stdout ) 
             console.log(`${child.stdout}`);
@@ -779,6 +785,7 @@ function run_playbook(site_name, site_env, sha) {
         core.setFailed('Running playook failed: '+ error.message);
     }
 }
+
 
 /***/ }),
 
