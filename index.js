@@ -134,6 +134,6 @@ function run_playbook(site_name, site_env, sha) {
             if(child.error) core.setFailed(child.error.message);
             else core.setFailed(`${child.stderr}`);
     } catch (error) {
-        core.setFailed('Running playook failed: '+ error.message);
+        //core.setFailed('Running playook failed: '+ error.message);
     }
 }
