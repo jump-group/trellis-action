@@ -127,10 +127,6 @@ function run_playbook(site_name, site_env, sha, site_droplet) {
         console.log("Risultato Deploy");
         console.log(child.toString());
 
-        console.log(child.status);
-        if( child.status != 0)
-            if(child.error) core.setFailed(child.error.message);
-            else core.setFailed(`${child.stderr}`);
     } catch (error) {
         core.setFailed('Running playook failed: '+ error.message);
     }
