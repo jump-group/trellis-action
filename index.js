@@ -58,7 +58,8 @@ core.endGroup();
 try {
     const site_env = core.getInput('site_env', {required: true});
     let site_name = core.getInput('site_name');
-    const group_vars = `host_vars/${site_env}-${site_name}/wordpress_sites.yml`;
+    let site_droplet = core.getInput('site_droplet');
+    const group_vars = `host_vars/${site_droplet}/wordpress_sites.yml`;
 
     console.log(`Deploying ${site_name} to ${site_env}`);
     const wordpress_sites = yaml.safeLoad(fs.readFileSync(group_vars, 'utf8'));
@@ -66,8 +67,7 @@ try {
     if(wordpress_sites != null) {
         if(site_name) {
             let site = wordpress_sites.wordpress_sites[site_name];
-            console.info(site);
-            deploy_site(site_name, site, site_env)
+            deploy_site(site_name, site, site_env);
         } else { 
             const site_key = core.getInput('site_key', {required: true});
             const site_value = core.getInput('site_value', {required: true});
@@ -121,11 +121,8 @@ function deploy_site(site_name, site, site_env){
 
 function run_playbook(site_name, site_env, sha) {
     try {
-        console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_env}-${site_name}`);
-        const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_env}-${site_name}`, {stdio: 'inherit'});
-
-
-        console.log(child.toString());
+        console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
+        const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`, {stdio: 'inherit'});
 
         if( child.stdout ) 
             console.log(`${child.stdout}`);
@@ -137,7 +134,6 @@ function run_playbook(site_name, site_env, sha) {
             if(child.error) core.setFailed(child.error.message);
             else core.setFailed(`${child.stderr}`);
     } catch (error) {
-        console.log(child.toString());
-        //core.setFailed('Running playook failed: '+ error.message);
+        core.setFailed('Running playook failed: '+ error.message);
     }
 }
