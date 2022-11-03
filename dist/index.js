@@ -716,7 +716,7 @@ try {
     if(wordpress_sites != null) {
         if(site_name) {
             let site = wordpress_sites.wordpress_sites[site_name];
-            deploy_site(site_name, site, site_env);
+            deploy_site(site_name, site, site_env, site_droplet);
         } else { 
             const site_key = core.getInput('site_key', {required: true});
             const site_value = core.getInput('site_value', {required: true});
@@ -724,7 +724,7 @@ try {
             Object.keys(wordpress_sites.wordpress_sites).forEach(function(site_name) {
                 let site = wordpress_sites.wordpress_sites[site_name];
                 if(site[site_key] == site_value) {
-                    deploy_site(site_name, site, site_env);
+                    deploy_site(site_name, site, site_env, site_droplet);
                 }
             });
         }
@@ -749,7 +749,7 @@ if(verbose) {
     core.endGroup();
 }
 
-function deploy_site(site_name, site, site_env){
+function deploy_site(site_name, site, site_env, site_droplet) {
     // Make sure site folder exists. We're already in the trellis folder so this should work fine.
     const ansible_site_path = site.local_path;
     if (fs.existsSync(site_path) && !fs.existsSync(ansible_site_path) ) {
@@ -763,12 +763,12 @@ function deploy_site(site_name, site, site_env){
     } 
 
     core.group(`Deploy Site ${site_name}`, async () => {
-        const deploy = await run_playbook(site_name, site_env, process.env['GITHUB_SHA']);
+        const deploy = await run_playbook(site_name, site_env, process.env['GITHUB_SHA'], site_droplet);
         return deploy;
     });
 }
 
-function run_playbook(site_name, site_env, sha) {
+function run_playbook(site_name, site_env, sha, site_droplet) {
     try {
         console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
         const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`, {stdio: 'inherit'});
