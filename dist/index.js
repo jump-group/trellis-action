@@ -773,6 +773,8 @@ function run_playbook(site_name, site_env, sha, site_droplet) {
         console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
         const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`, {stdio: 'inherit'});
 
+        console.log("ciauuuuu");
+        console.log(child_process.toString());
         if( child.stdout ) 
             console.log(`${child.stdout}`);
 
