@@ -773,14 +773,10 @@ function run_playbook(site_name, site_env, sha, site_droplet) {
         console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
         const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
 
+        console.log("Risultato Deploy");
         console.log(child.toString());
 
-        if( child.stdout ) 
-            console.log(`${child.stdout}`);
-
-        if( child.stderr ) 
-            console.log(`${child.stderr}`);
-
+        console.log(child.status);
         if( child.status != 0)
             if(child.error) core.setFailed(child.error.message);
             else core.setFailed(`${child.stderr}`);
