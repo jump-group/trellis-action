@@ -122,10 +122,10 @@ function deploy_site(site_name, site, site_env, site_droplet) {
 function run_playbook(site_name, site_env, sha, site_droplet) {
     try {
         console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
-        const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
+        const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`, {stdio: 'inherit'});
 
-        console.log("Risultato Deploy");
-        console.log(child.toString());
+        // console.log("Risultato Deploy");
+        // console.log(child.toString());
 
     } catch (error) {
         core.setFailed('Running playook failed: '+ error.message);
