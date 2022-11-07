@@ -779,7 +779,7 @@ function run_playbook(site_name, site_env, sha, site_droplet) {
     } catch (error) {
         console.log("Errore during Deploy");
         console.log(error.status);
-        console.log(error.stderr.toString());
+        console.log(error.stdout.toString());
         core.setFailed('Running playook failed: '+ error.message);
     }
 }
