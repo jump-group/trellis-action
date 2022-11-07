@@ -770,33 +770,16 @@ function deploy_site(site_name, site, site_env, site_droplet) {
 
 function run_playbook(site_name, site_env, sha, site_droplet) {
 
-    console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
+    try {
+        console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
+        const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
 
-    //kick off process of listing files
-    var child = child_process.spawn(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
+        console.log("Deployment was successful");
+        console.log(child.toString());
 
-    //spit stdout to screen
-    child.stdout.on('data', function (data) {   process.stdout.write(data.toString());  });
-
-    //spit stderr to screen
-    child.stderr.on('data', function (data) {   process.stdout.write(data.toString()); core.setFailed('Running playook failed: '+ error.message); });
-
-    child.on('close', function (code) { 
-        console.log("Finished with code " + code);
-    });
-    // try {
-    //     console.log(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
-    //     const child = child_process.execSync(`ansible-playbook deploy.yml -e site=${site_name} -e env=${site_env} -e site_version=${sha} --limit=${site_droplet}`);
-
-    //     console.log("Risultato Deploy");
-    //     console.log(child.toString());
-
-    // } catch (error) {
-    //     console.log("Errore during Deploy");
-    //     console.log(error.status);
-    //     console.log(error.stdout.toString());
-    //     core.setFailed('Running playook failed: '+ error.message);
-    // }
+    } catch (error) {
+        core.setFailed('Running playook failed: '+ error.stdout.toString());
+    }
 }
 
 
