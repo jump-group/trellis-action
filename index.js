@@ -129,6 +129,7 @@ function run_playbook(site_name, site_env, sha, site_droplet) {
         console.log(child.toString());
 
     } catch (error) {
-        core.setFailed('Running playook failed: '+ error.stdout.toString());
+        console.log(error.stdout.toString());
+        core.setFailed('Running playook failed');
     }
 }
