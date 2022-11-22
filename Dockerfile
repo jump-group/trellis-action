@@ -15,7 +15,7 @@ RUN apk update && apk add bash
 # Install NVM
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
 
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install 12 && nvm use --delete-prefix 12"
+RUN /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 12 && nvm use --delete-prefix 12"
 
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
