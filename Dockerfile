@@ -10,11 +10,12 @@ RUN apk add --no-cache --virtual .build-deps \
         libpng-dev libjpeg-turbo-dev \
     && rm -rf /var/cache/apk/* /tmp/*
 
-RUN apk update && apk add bash
+RUN apk update && apk add bash bash-doc bash-completion
 
 RUN apk update \
-    && apk add ls \
     && apk add wget
+
+RUN apk add util-linux pciutils usbutils coreutils binutils findutils grep iproute2
 
 # Install NVM
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
