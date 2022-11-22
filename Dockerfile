@@ -11,7 +11,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm -rf /var/cache/apk/* /tmp/*
 
 # Install NVM
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | /bin/sh
 
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
