@@ -12,7 +12,9 @@ RUN apk add --no-cache --virtual .build-deps \
 
 RUN apk update && apk add bash
 
-RUN apk update && apk add coreutils
+RUN apk update \
+    && apk add ls \
+    && apk add wget
 
 # Install NVM
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
