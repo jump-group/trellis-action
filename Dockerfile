@@ -13,11 +13,11 @@ RUN apk add --no-cache --virtual .build-deps \
 RUN apk update && apk add bash
 
 # Install NVM
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash \
-    && source $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
+
+RUN source ~/.nvm/nvm.sh; \
+    nvm install 12; \
+    nvm use --delete-prefix 12;
 
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
