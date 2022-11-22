@@ -10,8 +10,10 @@ RUN apk add --no-cache --virtual .build-deps \
         libpng-dev libjpeg-turbo-dev \
     && rm -rf /var/cache/apk/* /tmp/*
 
+RUN apk update && apk add bash
+
 # Install NVM
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | /bin/sh
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
