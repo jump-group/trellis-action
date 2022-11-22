@@ -10,6 +10,9 @@ RUN apk add --no-cache --virtual .build-deps \
         libpng-dev libjpeg-turbo-dev \
     && rm -rf /var/cache/apk/* /tmp/*
 
+# Install NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
 #     echo 'yarn versions' && yarn versions && \
