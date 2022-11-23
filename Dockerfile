@@ -18,9 +18,9 @@ RUN apk update \
 RUN apk add util-linux pciutils usbutils coreutils binutils findutils grep iproute2
 
 # Install NVM
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | sh 
 
-RUN /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 12 && nvm use --delete-prefix 12"
+RUN /bin/sh -c "source ~/.nvm/nvm.sh && nvm install 12 && nvm use --delete-prefix 12"
 
 # Basic smoke test
 # RUN echo 'node --version' && node --version && \
