@@ -23,4 +23,10 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | b
     && nvm alias default 12 \
     && nvm use default
 
-ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
+# Install yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update && apt-get install -y -q --no-install-recommends yarn
+
+#ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
