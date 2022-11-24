@@ -20,6 +20,10 @@ inputs:
     site_env:
       description: the environment to deploy to (staging, production, etc)
       required: true
+    node_build_version: 
+      description: the version of node to use for building assets
+      default: 12
+      required: false
     site_name:
       description: the WordPress site to deploy (name defined in wordpress_sites)
       required: false
@@ -60,4 +64,4 @@ runs:
     ANSIBLE_STRATEGY_PLUGINS: /usr/lib/python3.6/site-packages/ansible_mitogen/plugins/strategy
     ANSIBLE_STRATEGY:  ${{ inputs.ansible_strategy }}
     YARN_CACHE_FOLDER: ${{ inputs.yarn_cache }}
-    NODE_VERSION: "12"
+    NODE_VERSION: ${{ inputs.node_build_version }}
