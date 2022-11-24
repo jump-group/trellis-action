@@ -11,10 +11,15 @@ COPY ./dist/index.js /index.js
 
 RUN apt update 
 
-# Install NVM
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
+ENV NVM_DIR ~/.nvm
+ENV NODE_VERSION 12
 
-RUN /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 12 && nvm use --delete-prefix 12"
+# Install nvm with node and npm
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
 
 # RUN apk add util-linux pciutils usbutils coreutils binutils findutils grep iproute2
 
