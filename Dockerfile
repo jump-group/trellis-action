@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         git \
         libssl-dev \
         wget \
+        yarn \
     && rm -rf /var/lib/apt/lists/*
 
 # Install nvm with node and npm
@@ -21,8 +22,5 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | b
     && nvm install 12 \
     && nvm alias default 12 \
     && nvm use default
-
-# Install yarn
-RUN npm install -g yarn
 
 ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
