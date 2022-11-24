@@ -29,4 +29,4 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update && apt-get install -y -q --no-install-recommends yarn
 
-#ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
+ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
