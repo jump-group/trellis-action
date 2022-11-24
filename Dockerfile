@@ -1,7 +1,5 @@
 FROM willhallonline/ansible:2.13-ubuntu-20.04
 
-ENV NODE_VERSION $INPUT_NODE_BUILD_VERSION
-
 SHELL ["/bin/bash", "--login", "-c"]
 
 COPY ./dist/index.js /index.js

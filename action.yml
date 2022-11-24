@@ -66,4 +66,3 @@ runs:
     ANSIBLE_STRATEGY_PLUGINS: /usr/lib/python3.6/site-packages/ansible_mitogen/plugins/strategy
     ANSIBLE_STRATEGY:  ${{ inputs.ansible_strategy }}
     YARN_CACHE_FOLDER: ${{ inputs.yarn_cache }}
-    NODE_VERSION: ${{ inputs.node_build_version }}
