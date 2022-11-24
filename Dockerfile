@@ -22,4 +22,7 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | b
     && nvm alias default 12 \
     && nvm use default
 
+# Install yarn
+RUN npm install -g yarn
+
 ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
