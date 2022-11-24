@@ -20,7 +20,7 @@ inputs:
     site_env:
       description: the environment to deploy to (staging, production, etc)
       required: true
-    node_build_version: 
+    node_version: 
       description: the version of node to use for building assets
       default: 12
       required: false
@@ -60,7 +60,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.node_build_version}}
+    - ${{ inputs.node_version}}
   env:
     ANSIBLE_HOST_KEY_CHECKING: false
     ANSIBLE_STRATEGY_PLUGINS: /usr/lib/python3.6/site-packages/ansible_mitogen/plugins/strategy
