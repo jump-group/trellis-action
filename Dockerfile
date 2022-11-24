@@ -1,6 +1,6 @@
 FROM willhallonline/ansible:2.13-ubuntu-20.04
 
-ARG NODE_VERSION
+ENV NODE_VERSION $NODE_VERSION
 
 SHELL ["/bin/bash", "--login", "-c"]
 
