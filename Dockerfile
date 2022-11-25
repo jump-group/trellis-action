@@ -36,4 +36,4 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends yarn
 # Install rsync
 RUN apt-get update && apt-get install -y -q --no-install-recommends rsync
 
-ENTRYPOINT ["/bin/bash", "-c", "source ~/.nvm/nvm.sh && node /index.js"]
+ENTRYPOINT ["/bin/bash", "-c", "node /index.js"]
