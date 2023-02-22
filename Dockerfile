@@ -16,15 +16,8 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
         yarn \
     && rm -rf /var/lib/apt/lists/*
 
-# # Install nvm with node and npm
-# RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash \
-#     && . ~/.nvm/nvm.sh \
-#     && nvm install 12 \
-#     && nvm alias default 12 \
-#     && nvm use default
-
-# Install nodejs 12
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+# Install nodejs 18
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
 
 # Install yarn
