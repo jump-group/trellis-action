@@ -23,10 +23,10 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
 #     && nvm alias default 12 \
 #     && nvm use default
 
-# Install nodejs 12
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+# Install nodejs 10
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get install -y nodejs
-
+    
 # Install yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
