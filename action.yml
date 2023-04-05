@@ -22,7 +22,7 @@ inputs:
       required: true
     node_version: 
       description: the version of node to use for building assets
-      default: 12
+      default: 18
       required: false
     site_name:
       description: the WordPress site to deploy (name defined in wordpress_sites)
